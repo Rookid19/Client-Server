@@ -1,15 +1,23 @@
-import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
+import {
+   addDoc,
+   collection,
+   doc,
+   getDocs,
+   onSnapshot,
+   query,
+   serverTimestamp,
+} from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
 export default async function handler(req, res) {
    //    a();
-   const mainData = [];
+   const emails = [];
    const q = query(collection(db, "UserInfo"));
    const querySnapshot = await getDocs(q);
    querySnapshot.forEach((doc) => {
-      mainData.push(doc.data().email);
+      emails.push(doc.data().email);
    });
-   let qouteUrl = `https://cloud.iexapis.com/stable/stock/AAPL/quote?token=${process.env.IEX_API_KEY}`;
+   //    let qouteUrl = `https://cloud.iexapis.com/stable/stock/AAPL/quote?token=${process.env.IEX_API_KEY}`;
    let chartUrl = `https://cloud.iexapis.com/stable/stock/AAPL/chart/1d?token=${process.env.IEX_API_KEY}`;
 
    await fetch(chartUrl)
@@ -19,7 +27,24 @@ export default async function handler(req, res) {
          let oldPrice = JSON.stringify(data[0].close);
          let newPrice = JSON.stringify(data[10].close);
          let gain = newPrice - oldPrice;
-         let percentageGain = (gain/oldPrice)
+         let percentageGain = (gain / oldPrice) * 100;
+
+         onSnapshot(
+            collection(db, "UserInfo", auth?.currentUser?.email, "Profile"),
+            (snapshot) => {
+               snapshot.docs.map((doc) => ({
+                  data: doc.data(),
+               }));
+            }
+         );
+         emails.map((email) => {
+            addDoc(doc(db, "UserInfo", email, "Graph", "1W", "Points"), {
+               ticker: "AAPL",
+               gain: gain,
+               percentageGain: percentageGain,
+               createdAt: serverTimestamp(),
+            });
+         });
       });
 
    //    setInterval(() => {
