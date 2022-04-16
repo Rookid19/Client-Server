@@ -16,9 +16,10 @@ export default async function handler(req, res) {
       .then((response) => response.json())
       .then((data) => {
          //  console.log(data.length);
-         let newPrice = JSON.stringify(data[0].close);
-         let oldPrice = JSON.stringify(data[10].close);
+         let oldPrice = JSON.stringify(data[0].close);
+         let newPrice = JSON.stringify(data[10].close);
          let gain = newPrice - oldPrice;
+         let percentageGain = (gain/oldPrice)
       });
 
    //    setInterval(() => {
