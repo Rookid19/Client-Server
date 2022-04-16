@@ -27,7 +27,7 @@ const users = [
 const b = [];
 const a = () => {
    const unsub = onSnapshot(
-      collection(db, "UserInfo", auth?.currentUser?.email, "Deposit"),
+      collection(db, "UserInfo", "randy@gmail.com", "Deposit"),
       (snapshot) => {
          //  setTransferDeposit(
          b.push(
