@@ -10,11 +10,15 @@ export default async function handler(req, res) {
       mainData.push(doc.data().email);
    });
    let qouteUrl = `https://cloud.iexapis.com/stable/stock/AAPL/quote?token=${process.env.IEX_API_KEY}`;
+   let chartUrl = `https://cloud.iexapis.com/stable/stock/AAPL/chart/1d?token=${process.env.IEX_API_KEY}`;
 
-   await fetch(qouteUrl)
+   await fetch(chartUrl)
       .then((response) => response.json())
       .then((data) => {
-         let currentMarketPrice = JSON.stringify(data.latestPrice);
+         //  console.log(data.length);
+         let newPrice = JSON.stringify(data[0].close);
+         let oldPrice = JSON.stringify(data[10].close);
+         let gain = newPrice - oldPrice;
       });
 
    //    setInterval(() => {
