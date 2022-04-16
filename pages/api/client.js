@@ -1,3 +1,5 @@
+import { auth } from "../../firebase";
+
 const users = [
    {
       id: "acct_273wbuwbu",
@@ -22,22 +24,38 @@ const users = [
       },
    },
 ];
+const b = [];
+const a = () => {
+   const unsub = onSnapshot(
+      collection(db, "UserInfo", auth?.currentUser?.email, "Deposit"),
+      (snapshot) => {
+         //  setTransferDeposit(
+         b.push(
+            snapshot.docs.map((doc) => ({
+               data: doc.data(),
+            }))
+         );
+      }
+   );
 
-
+   return unsub;
+};
 
 export default function handler(req, res) {
    //    res.status(200).json({ name: "John Doe" });
-   setInterval(() => {
-      for (let i = 0; i < users.length; i++) {
-         fetch("http://localhost:3000/api/server", {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body: JSON.stringify(users[i]),
-         });
-      }
-   }, 3000);
+   a();
+   console.log(b);
+//    setInterval(() => {
+//       for (let i = 0; i < users.length; i++) {
+//          fetch("http://localhost:3000/api/server", {
+//             method: "POST",
+//             headers: {
+//                "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify(users[i]),
+//          });
+//       }
+//    }, 3000);
 }
 
 handler();
