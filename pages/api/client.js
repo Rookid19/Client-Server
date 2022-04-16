@@ -9,16 +9,13 @@ export default async function handler(req, res) {
    querySnapshot.forEach((doc) => {
       mainData.push(doc.data().email);
    });
-
    let qouteUrl = `https://cloud.iexapis.com/stable/stock/AAPL/quote?token=${process.env.IEX_API_KEY}`;
 
-   console.log("key---> " + process.env.IEX_API_KEY);
-
-   //    await fetch(qouteUrl)
-   //       .then((response) => response.json())
-   //       .then((data) => {
-   //          let currentMarketPrice = JSON.stringify(data.latestPrice);
-   //       });
+   await fetch(qouteUrl)
+      .then((response) => response.json())
+      .then((data) => {
+         let currentMarketPrice = JSON.stringify(data.latestPrice);
+      });
 
    //    setInterval(() => {
    //       for (let i = 0; i < mainData.length; i++) {
