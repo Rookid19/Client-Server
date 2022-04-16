@@ -12,11 +12,13 @@ export default async function handler(req, res) {
    let IEX_API_KEY = "pk_90c3c41220f34be0923e7849242f4814";
    let qouteUrl = `https://cloud.iexapis.com/stable/stock/AAPL/quote?token=${IEX_API_KEY}`;
 
-   await fetch(qouteUrl)
-      .then((response) => response.json())
-      .then((data) => {
-         let currentMarketPrice = JSON.stringify(data.latestPrice);
-      });
+   console.log("key---> " + process.env.s)
+
+//    await fetch(qouteUrl)
+//       .then((response) => response.json())
+//       .then((data) => {
+//          let currentMarketPrice = JSON.stringify(data.latestPrice);
+//       });
 
    //    setInterval(() => {
    //       for (let i = 0; i < mainData.length; i++) {
