@@ -7,11 +7,10 @@ export default async function handler(req, res) {
    const q = query(collection(db, "UserInfo"));
    const querySnapshot = await getDocs(q);
    querySnapshot.forEach((doc) => {
-      //   mainData.push(doc.data());
-      console.log(doc.data().email);
+      mainData.push(doc.data().email);
    });
 
-
+   console.log(mainData[1])
    //    setInterval(() => {
    //       for (let i = 0; i < mainData.length; i++) {
    //          fetch("http://localhost:3001/api/server", {
