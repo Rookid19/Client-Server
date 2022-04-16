@@ -2,10 +2,10 @@
 import { Expo } from "expo-server-sdk";
 
 export default function handler(req, res) {
-   const { to, message, data,title } = req.body;
+   const { to, message, data, title } = req.body;
 
    let expo = new Expo();
-
+   console.log(to);
    // Create the messages that you want to send to clients
    let messages = [];
    let somePushTokens = [
@@ -28,8 +28,8 @@ export default function handler(req, res) {
          to: pushToken,
          sound: "default",
          title: title,
-         body:message,
-         data:data,
+         body: message,
+         data: data,
       });
       // The Expo push notification service accepts batches of notifications so
       // that you don't need to send 1000 requests to send 1000 notifications. We
