@@ -1,4 +1,7 @@
-import { auth } from "../../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
+
+import { auth, db } from "../../firebase";
+import react from "react";
 
 const users = [
    {
@@ -41,21 +44,34 @@ const a = () => {
    return unsub;
 };
 
+const mainData = [];
+const q = query(
+   collection(db, PARTNERS_TABLE),
+   where("username", "==", username),
+   where("password", "==", password),
+   where("approved", "==", true)
+);
+const querySnapshot = await getDocs(q);
+querySnapshot.forEach((doc) => {
+   mainData.push(doc.data());
+});
+
 export default function handler(req, res) {
-   //    res.status(200).json({ name: "John Doe" });
    a();
-   console.log(b);
-//    setInterval(() => {
-//       for (let i = 0; i < users.length; i++) {
-//          fetch("http://localhost:3000/api/server", {
-//             method: "POST",
-//             headers: {
-//                "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify(users[i]),
-//          });
-//       }
-//    }, 3000);
+   console.log("lenght---> " + b.length);
+
+   //    res.status(200).json({ name: "John Doe" });
+   //    setInterval(() => {
+   //       for (let i = 0; i < users.length; i++) {
+   //          fetch("http://localhost:3000/api/server", {
+   //             method: "POST",
+   //             headers: {
+   //                "Content-Type": "application/json",
+   //             },
+   //             body: JSON.stringify(users[i]),
+   //          });
+   //       }
+   //    }, 3000);
 }
 
 handler();
