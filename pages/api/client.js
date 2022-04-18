@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import {
    addDoc,
    collection,
@@ -29,21 +30,21 @@ export default async function handler(req, res) {
          let gain = newPrice - oldPrice;
          let percentageGain = (gain / oldPrice) * 100;
 
-         onSnapshot(
-            collection(db, "UserInfo", auth?.currentUser?.email, "Profile"),
-            (snapshot) => {
-               snapshot.docs.map((doc) => ({
-                  data: doc.data(),
-               }));
-            }
-         );
-         emails.map((email) => {
-            addDoc(doc(db, "UserInfo", email, "Graph", "1W", "Points"), {
-               ticker: "AAPL",
-               gain: gain,
-               percentageGain: percentageGain,
-               createdAt: serverTimestamp(),
+         emails.map(async (email) => {
+            const emails = [];
+            const q = query(collection(db, "UserInfo", email, "MyStock"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc, index) => {
+               //    (doc.data().ticker);
+               console.log("---> " + doc.data().ticker);
             });
+
+            // addDoc(doc(db, "UserInfo", email, "Graph", "1W", "Points"), {
+            //    ticker: "AAPL",
+            //    gain: gain,
+            //    percentageGain: percentageGain,
+            //    createdAt: serverTimestamp(),
+            // });
          });
       });
 
