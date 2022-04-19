@@ -47,17 +47,6 @@ export default async function handler(req, res) {
          });
       });
 
-   //    setInterval(() => {
-   //       for (let i = 0; i < mainData.length; i++) {
-   //          fetch("http://localhost:3001/api/server", {
-   //             method: "POST",
-   //             headers: {
-   //                "Content-Type": "application/json",
-   //             },
-   //             body: JSON.stringify(mainData[i]),
-   //          });
-   //       }
-   //    }, 3000);
 }
 
 handler();
